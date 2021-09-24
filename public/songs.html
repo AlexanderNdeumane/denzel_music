@@ -9,6 +9,8 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" />
+        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/main.css" rel="stylesheet" />
     </head>
@@ -27,68 +29,57 @@
                 </div>
             </div>
         </nav>
-        <!-- Song 1 -->
-        <div class="song_container">
-            <div class="song">
-              <h3 class="song_title">Eminado</h3>
-              <h5 class="song_artist">
-                Tiwa Savage
-                <i>Truth (2017)</i>
-              </h5>
-          
-              <div class="song_meta">
-                <audio controls width="100%">
-            <source src="songs/tiwa.mp3">
-            Your browser does not support the audio tag.
-          </audio>
-                <a href="#" class="artwork">
-           <img src="songs/tiwa.jpg" alt="">
-          </a>
+        
+        <!-- Audio player -->
+        <div id="app-cover">
+          <div id="bg-artwork"></div>
+          <div id="bg-layer"></div>
+          <div id="player">
+              <div id="player-track">
+                  <div id="album-name"></div>
+                  <div id="track-name"></div>
+                  <div id="track-time">
+                      <div id="current-time"></div>
+                      <div id="track-length"></div>
+                  </div>
+                  <div id="s-area">
+                      <div id="ins-time"></div>
+                      <div id="s-hover"></div>
+                      <div id="seek-bar"></div>
+                  </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Song 2 -->
-        <div class="song_container">
-            <div class="song">
-              <h3 class="song_title">I Need You To Survive</h3>
-              <h5 class="song_artist">
-                Hezekia
-                <i>It Is Done (2018)</i>
-              </h5>
-          
-              <div class="song_meta">
-                <audio controls width="100%">
-            <source src="songs/hez.mp3">
-            Your browser does not support the audio tag.
-          </audio>
-                <a href="#" class="artwork">
-           <img src="songs/hez.jpeg" alt="">
-          </a>
+              <div id="player-content">
+                  <div id="album-art">
+                      <img src="songs/hez.jpeg" class="active" id="_1">
+                      <img src="songs/hill.jpg" id="_2">
+                      <img src="songs/tiwa.jpg" id="_3">
+                      <div id="buffer-box">Buffering ...</div>
+                  </div>
+                  <div id="player-controls">
+                      <div class="control">
+                          <div class="button" id="play-previous">
+                              <i class="fas fa-backward"></i>
+                          </div>
+                      </div>
+                      <div class="control">
+                          <div class="button" id="play-pause-button">
+                              <i class="fas fa-play"></i>
+                          </div>
+                      </div>
+                      <div class="control">
+                          <div class="button" id="play-next">
+                              <i class="fas fa-forward"></i>
+                          </div>
+                      </div>
+                      <div class="control">
+                            <div class="button" id="song_download">
+                                <i class="fa fa-arrow-circle-down"></i>
+                            </div>
+                    </div>
+                  </div>
               </div>
-            </div>
           </div>
-
-          <!-- Song 3 -->
-        <div class="song_container">
-            <div class="song">
-              <h3 class="song_title">Pursue</h3>
-              <h5 class="song_artist">
-                Hillsong
-                <i>Worthy (2019)</i>
-              </h5>
-          
-              <div class="song_meta">
-                <audio controls width="100%">
-            <source src="songs/hill.m4a">
-            Your browser does not support the audio tag.
-          </audio>
-                <a href="#" class="artwork">
-           <img src="songs/hill.jpg" alt="">
-          </a>
-              </div>
-            </div>
-          </div>
+      </div>
           
 
         <!-- Footer-->
@@ -98,6 +89,7 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="js/scripts.js"></script>
     </body>
 </html>

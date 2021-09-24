@@ -7,7 +7,6 @@ $(function()
     trackUrl = ['songs/hez.mp3','songs/hill.m4a','songs/tiwa.mp3'], 
     playPreviousTrackButton = $('#play-previous'), playNextTrackButton = $('#play-next'), currIndex = -1;
 
-    
     function playPause()
     {
         setTimeout(function()
