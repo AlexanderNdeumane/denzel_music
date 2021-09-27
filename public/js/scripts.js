@@ -6,8 +6,14 @@ $(function()
     albumArtworks = ['_1','_2','_3'], 
     trackUrl = ['songs/hez.mp3','songs/hill.m4a','songs/tiwa.mp3'], 
     playPreviousTrackButton = $('#play-previous'), playNextTrackButton = $('#play-next'), currIndex = -1;
-
     
+    function download(){
+        a = document.getElementById("song_download");
+        a.setAttribute("href", trackUrl[currIndex]);
+        a.setAttribute("download", trackUrl[currIndex]);
+    }
+    document.getElementById("song_download").addEventListener("click", download());
+
     function playPause()
     {
         setTimeout(function()
@@ -202,6 +208,7 @@ $(function()
             bgArtworkUrl = $('#'+currArtwork).attr('src');
 
             bgArtwork.css({'background-image':'url('+bgArtworkUrl+')'});
+            download();
         }
         else
         {
