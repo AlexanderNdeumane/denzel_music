@@ -1,3 +1,8 @@
+.display_pic{
+  width: 150px;
+  height: 150px;
+}
+
 .rt-container{
   width: 50%;
   margin-left: auto;
