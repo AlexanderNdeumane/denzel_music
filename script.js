@@ -1,237 +1,255 @@
-$(function()
-{
-    var playerTrack = $("#player-track"), bgArtwork = $('#bg-artwork'), bgArtworkUrl, albumName = $('#album-name'), trackName = $('#track-name'), albumArt = $('#album-art'), sArea = $('#s-area'), seekBar = $('#seek-bar'), trackTime = $('#track-time'), insTime = $('#ins-time'), sHover = $('#s-hover'), playPauseButton = $("#play-pause-button"),  i = playPauseButton.find('i'), tProgress = $('#current-time'), tTime = $('#track-length'), seekT, seekLoc, seekBarPos, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, bTime, nTime = 0, buffInterval = null, tFlag = false, 
-    albums = ['I Need You To Survive','Pursue','Eminado'], 
-    trackNames = ['Hezekiah','Hillsong','Tiwa Savage'], 
-    albumArtworks = ['_1','_2','_3'], 
-    trackUrl = ['songs/hez.mp3','songs/hill.m4a','songs/tiwa.mp3'], 
-    playPreviousTrackButton = $('#play-previous'), playNextTrackButton = $('#play-next'), currIndex = -1;
+// Designed by:  Mauricio Bucardo
+// Original image: https://dribbble.com/shots/6957353-Music-Player-Widget
 
-    function playPause()
-    {
-        setTimeout(function()
-        {
-            if(audio.paused)
-            {
-                playerTrack.addClass('active');
-                albumArt.addClass('active');
-                checkBuffering();
-                i.attr('class','fas fa-pause');
-                audio.play();
-            }
-            else
-            {
-                playerTrack.removeClass('active');
-                albumArt.removeClass('active');
-                clearInterval(buffInterval);
-                albumArt.removeClass('buffering');
-                i.attr('class','fas fa-play');
-                audio.pause();
-            }
-        },300);
+"use strict";
+
+// add elemnts
+const bgBody = ["#e5e7e9", "#ff4545", "#f8ded3", "#ffc382", "#f5eda6", "#ffcbdc", "#dcf3f3"];
+const body = document.body;
+const player = document.querySelector(".player");
+const playerHeader = player.querySelector(".player__header");
+const playerControls = player.querySelector(".player__controls");
+const playerPlayList = player.querySelectorAll(".player__song");
+const playerSongs = player.querySelectorAll(".audio");
+const playButton = player.querySelector(".play");
+const nextButton = player.querySelector(".next");
+const backButton = player.querySelector(".back");
+const playlistButton = player.querySelector(".playlist");
+const slider = player.querySelector(".slider");
+const sliderContext = player.querySelector(".slider__context");
+const sliderName = sliderContext.querySelector(".slider__name");
+const sliderTitle = sliderContext.querySelector(".slider__title");
+const sliderContent = slider.querySelector(".slider__content");
+const sliderContentLength = playerPlayList.length - 1;
+const sliderWidth = 100;
+let left = 0;
+let count = 0;
+let song = playerSongs[count];
+let isPlay = false;
+const pauseIcon = playButton.querySelector("img[alt = 'pause-icon']");
+const playIcon = playButton.querySelector("img[alt = 'play-icon']");
+const progres = player.querySelector(".progres");
+const progresFilled = progres.querySelector(".progres__filled");
+let isMove = false;
+
+// creat functions
+function openPlayer() {
+
+    playerHeader.classList.add("open-header");
+    playerControls.classList.add("move");
+    slider.classList.add("open-slider");
+    
+}
+
+function closePlayer() {
+
+    playerHeader.classList.remove("open-header");
+    playerControls.classList.remove("move");
+    slider.classList.remove("open-slider");
+    
+}
+
+function next(index) {
+    
+    count = index || count;
+
+    if (count == sliderContentLength) {
+        count = count;
+        return;
     }
 
-    	
-	function showHover(event)
-	{
-		seekBarPos = sArea.offset(); 
-		seekT = event.clientX - seekBarPos.left;
-		seekLoc = audio.duration * (seekT / sArea.outerWidth());
-		
-		sHover.width(seekT);
-		
-		cM = seekLoc / 60;
-		
-		ctMinutes = Math.floor(cM);
-		ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
-		
-		if( (ctMinutes < 0) || (ctSeconds < 0) )
-			return;
-		
-        if( (ctMinutes < 0) || (ctSeconds < 0) )
-			return;
-		
-		if(ctMinutes < 10)
-			ctMinutes = '0'+ctMinutes;
-		if(ctSeconds < 10)
-			ctSeconds = '0'+ctSeconds;
-        
-        if( isNaN(ctMinutes) || isNaN(ctSeconds) )
-            insTime.text('--:--');
-        else
-		    insTime.text(ctMinutes+':'+ctSeconds);
-            
-		insTime.css({'left':seekT,'margin-left':'-21px'}).fadeIn(0);
-		
-	}
+    left = (count + 1) * sliderWidth;
+    left = Math.min(left, (sliderContentLength) * sliderWidth);
+    sliderContent.style.transform = `translate3d(-${left}%, 0, 0)`;
+    count++;
+    run();
 
-    function hideHover()
-	{
-        sHover.width(0);
-        insTime.text('00:00').css({'left':'0px','margin-left':'0px'}).fadeOut(0);		
+}
+
+function back(index) {
+    
+    count = index || count;
+
+    if (count == 0) {
+        count = count;
+        return;
     }
     
-    function playFromClickedPos()
-    {
-        audio.currentTime = seekLoc;
-		seekBar.width(seekT);
-		hideHover();
-    }
+    left = (count - 1) * sliderWidth;
+    left = Math.max(0, left);
+    sliderContent.style.transform = `translate3d(-${left}%, 0, 0)`;
+    count--;
+    run();
 
-    function updateCurrTime()
-	{
-        nTime = new Date();
-        nTime = nTime.getTime();
+}
 
-        if( !tFlag )
-        {
-            tFlag = true;
-            trackTime.addClass('active');
-        }
+function changeSliderContext() {
 
-		curMinutes = Math.floor(audio.currentTime / 60);
-		curSeconds = Math.floor(audio.currentTime - curMinutes * 60);
-		
-		durMinutes = Math.floor(audio.duration / 60);
-		durSeconds = Math.floor(audio.duration - durMinutes * 60);
-		
-		playProgress = (audio.currentTime / audio.duration) * 100;
-		
-		if(curMinutes < 10)
-			curMinutes = '0'+curMinutes;
-		if(curSeconds < 10)
-			curSeconds = '0'+curSeconds;
-		
-		if(durMinutes < 10)
-			durMinutes = '0'+durMinutes;
-		if(durSeconds < 10)
-			durSeconds = '0'+durSeconds;
-        
-        if( isNaN(curMinutes) || isNaN(curSeconds) )
-            tProgress.text('00:00');
-        else
-		    tProgress.text(curMinutes+':'+curSeconds);
-        
-        if( isNaN(durMinutes) || isNaN(durSeconds) )
-            tTime.text('00:00');
-        else
-		    tTime.text(durMinutes+':'+durSeconds);
-        
-        if( isNaN(curMinutes) || isNaN(curSeconds) || isNaN(durMinutes) || isNaN(durSeconds) )
-            trackTime.removeClass('active');
-        else
-            trackTime.addClass('active');
-
-        
-		seekBar.width(playProgress+'%');
-		
-		if( playProgress == 100 )
-		{
-			i.attr('class','fa fa-play');
-			seekBar.width(0);
-            tProgress.text('00:00');
-            albumArt.removeClass('buffering').removeClass('active');
-            clearInterval(buffInterval);
-		}
-    }
+    sliderContext.style.animationName = "opacity";
     
-    function checkBuffering()
-    {
-        clearInterval(buffInterval);
-        buffInterval = setInterval(function()
-        { 
-            if( (nTime == 0) || (bTime - nTime) > 1000  )
-                albumArt.addClass('buffering');
-            else
-                albumArt.removeClass('buffering');
-
-            bTime = new Date();
-            bTime = bTime.getTime();
-
-        },100);
-    }
-
-    function selectTrack(flag)
-    {
-        if( flag == 0 || flag == 1 )
-            ++currIndex;
-        else
-            --currIndex;
-
-        if( (currIndex > -1) && (currIndex < albumArtworks.length) )
-        {
-            if( flag == 0 )
-                i.attr('class','fa fa-play');
-            else
-            {
-                albumArt.removeClass('buffering');
-                i.attr('class','fa fa-pause');
-            }
-
-            seekBar.width(0);
-            trackTime.removeClass('active');
-            tProgress.text('00:00');
-            tTime.text('00:00');
-
-            currAlbum = albums[currIndex];
-            currTrackName = trackNames[currIndex];
-            currArtwork = albumArtworks[currIndex];
-
-            audio.src = trackUrl[currIndex];
-            
-            nTime = 0;
-            bTime = new Date();
-            bTime = bTime.getTime();
-
-            if(flag != 0)
-            {
-                audio.play();
-                playerTrack.addClass('active');
-                albumArt.addClass('active');
-            
-                clearInterval(buffInterval);
-                checkBuffering();
-            }
-
-            albumName.text(currAlbum);
-            trackName.text(currTrackName);
-            albumArt.find('img.active').removeClass('active');
-            $('#'+currArtwork).addClass('active');
-            
-            bgArtworkUrl = $('#'+currArtwork).attr('src');
-
-            bgArtwork.css({'background-image':'url('+bgArtworkUrl+')'});
-        }
-        else
-        {
-            if( flag == 0 || flag == 1 )
-                --currIndex;
-            else
-                ++currIndex;
-        }
-    }
-
-    function initPlayer()
-	{	
-        audio = new Audio();
-
-		selectTrack(0);
-		
-		audio.loop = false;
-		
-		playPauseButton.on('click',playPause);
-		
-		sArea.mousemove(function(event){ showHover(event); });
-		
-        sArea.mouseout(hideHover);
-        
-        sArea.on('click',playFromClickedPos);
-		
-        $(audio).on('timeupdate',updateCurrTime);
-
-        playPreviousTrackButton.on('click',function(){ selectTrack(-1);} );
-        playNextTrackButton.on('click',function(){ selectTrack(1);});
-	}
+    sliderName.textContent = playerPlayList[count].querySelector(".player__title").textContent;
+    sliderTitle.textContent = playerPlayList[count].querySelector(".player__song-name").textContent;
     
-	initPlayer();
+    if (sliderName.textContent.length > 16) {
+        const textWrap = document.createElement("span");
+        textWrap.className = "text-wrap";
+        textWrap.innerHTML = sliderName.textContent + "   " + sliderName.textContent;  
+        sliderName.innerHTML = "";
+        sliderName.append(textWrap);
+        
+    }
+
+    if (sliderTitle.textContent.length >= 18) {
+        const textWrap = document.createElement("span");
+        textWrap.className = "text-wrap";
+        textWrap.innerHTML = sliderTitle.textContent + "    " + sliderTitle.textContent;  
+        sliderTitle.innerHTML = "";
+        sliderTitle.append(textWrap);
+    }
+
+}
+
+function changeBgBody() {
+    body.style.backgroundColor = bgBody[count];
+}
+
+function selectSong() {
+
+    song = playerSongs[count];
+
+    for (const item of playerSongs) {
+
+        if (item != song) {
+            item.pause();
+            item.currentTime = 0;
+        }
+
+    }
+
+    if (isPlay) song.play();
+    
+    
+}
+
+function run() {
+  
+    changeSliderContext();
+    changeBgBody();
+    selectSong();
+  
+}
+
+function playSong() {
+
+    if (song.paused) {
+        song.play();
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "block";
+
+    }else{
+        song.pause();
+        isPlay = false;
+        playIcon.style.display = "";
+        pauseIcon.style.display = "";
+    }
+
+
+}
+
+function progresUpdate() {
+
+    const progresFilledWidth = (this.currentTime / this.duration) * 100 + "%";
+    progresFilled.style.width = progresFilledWidth;
+
+    if (isPlay && this.duration == this.currentTime) {
+        next();
+    }
+    if (count == sliderContentLength && song.currentTime == song.duration) {
+        playIcon.style.display = "block";
+        pauseIcon.style.display = "";
+        isPlay = false;
+    }
+}
+
+function scurb(e) {
+
+    // If we use e.offsetX, we have trouble setting the song time, when the mousemove is running
+    const currentTime = ( (e.clientX - progres.getBoundingClientRect().left) / progres.offsetWidth ) * song.duration;
+    song.currentTime = currentTime;
+
+}
+
+function durationSongs() {
+
+    let min = parseInt(this.duration / 60);
+    if (min < 10) min = "0" + min;
+
+    let sec = parseInt(this.duration % 60);
+    if (sec < 10) sec = "0" + sec;
+    
+    const playerSongTime = `${min}:${sec}`;
+    this.closest(".player__song").querySelector(".player__song-time").append(playerSongTime);
+
+}
+
+
+changeSliderContext();
+
+// add events
+sliderContext.addEventListener("click", openPlayer);
+sliderContext.addEventListener("animationend", () => sliderContext.style.animationName ='');
+playlistButton.addEventListener("click", closePlayer);
+
+nextButton.addEventListener("click", () => {
+    next(0)
+});
+
+backButton.addEventListener("click", () => {
+    back(0)
+});
+
+playButton.addEventListener("click", () => {
+    isPlay = true;
+    playSong();
+});
+
+playerSongs.forEach(song => {
+    song.addEventListener("loadeddata" , durationSongs);
+    song.addEventListener("timeupdate" , progresUpdate);
+    
+});
+
+progres.addEventListener("pointerdown", (e) => {
+    scurb(e);
+    isMove = true;
+});
+
+document.addEventListener("pointermove", (e) => {
+    if (isMove) {
+        scurb(e); 
+        song.muted = true;
+    }
+});
+
+document.addEventListener("pointerup", () => {
+    isMove = false;
+    song.muted = false;
+});
+
+playerPlayList.forEach((item, index) => {
+
+    item.addEventListener("click", function() {
+
+        if (index > count) {
+            next(index - 1);
+            return;
+        }
+        
+        if (index < count) {
+            back(index + 1);
+            return;
+        }
+
+    });
+    
 });
