@@ -39,18 +39,30 @@ html *::after {
 
 
 body{
-  
     margin: 0 ;
     height: 100vh ;
     display: flex ;
     user-select: none ;
     align-items: center ;
     justify-content: center ;
-    background-color: #e5e7e9 ;
     -webkit-tap-highlight-color: transparent ;
     transition: background-color  var(--cubic-slider) ;
 
 }  
+
+#bg-image {
+    /* Add the blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
 .img {
 
@@ -426,3 +438,7 @@ img[alt ="pause-icon"] {
 
 }
 
+.button{
+    position: relative;
+    margin-left: auto;
+}

@@ -4,7 +4,7 @@
 "use strict";
 
 // add elemnts
-const bgBody = ["#e5e7e9", "#ff4545", "#f8ded3", "#ffc382", "#f5eda6", "#ffcbdc", "#dcf3f3"];
+const bgBody = ['url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/LOOPS.jpeg")', 'url("./songs/on some.jpeg")'];
 const body = document.body;
 const player = document.querySelector(".player");
 const playerHeader = player.querySelector(".player__header");
@@ -110,7 +110,7 @@ function changeSliderContext() {
 }
 
 function changeBgBody() {
-    body.style.backgroundColor = bgBody[count];
+    document.getElementById("bg-image").innerHTML = bgBody[count];
 }
 
 function selectSong() {
