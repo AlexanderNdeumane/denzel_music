@@ -46,8 +46,7 @@ body{
     align-items: center ;
     justify-content: center ;
     -webkit-tap-highlight-color: transparent ;
-    transition: background-color  var(--cubic-slider) ;
-
+    transition: background-color  var(--cubic-slider);
 }  
 
 #bg-image {
@@ -57,11 +56,14 @@ body{
   
     /* Full height */
     height: 100%;
-  
+    width: 100%;
+    position: absolute;
+    z-index: -999;
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-image: url("../songs/CONVERSATIONS.jpeg");
   }
 
 .img {

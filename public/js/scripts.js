@@ -4,7 +4,7 @@
 "use strict";
 
 // add elemnts
-const bgBody = ['url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/LOOPS.jpeg")', 'url("./songs/on some.jpeg")'];
+const bgBody = ['url("./songs/CONVERSATIONS.jpeg")', 'url("./songs/FIGURES.jpeg")', 'url("./songs/108108.jpeg")', 'url("./songs/LOOPS.jpeg")', 'url("./songs/on some.jpeg")'];
 const body = document.body;
 const player = document.querySelector(".player");
 const playerHeader = player.querySelector(".player__header");
@@ -110,7 +110,7 @@ function changeSliderContext() {
 }
 
 function changeBgBody() {
-    document.getElementById("bg-image").innerHTML = bgBody[count];
+    document.getElementById("bg-image").style.backgroundImage = bgBody[count];
 }
 
 function selectSong() {
