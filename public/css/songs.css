@@ -51,14 +51,15 @@ body{
 
 #bg-image {
     /* Add the blur effect */
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
+    filter: blur(40px);
+    -webkit-filter: blur(40px);
   
     /* Full height */
     height: 100%;
     width: 100%;
     position: absolute;
     z-index: -999;
+    opacity: 0.8;
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
@@ -443,4 +444,8 @@ img[alt ="pause-icon"] {
 .button{
     position: relative;
     margin-left: auto;
+}
+
+#song_download {
+    color: #00000086;
 }
