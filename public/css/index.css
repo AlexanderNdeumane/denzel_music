@@ -1,3 +1,11 @@
+.bg-card{
+  background-color: #343a40;
+  padding: 10px;
+  min-width: 300px;
+  max-width: 30%;
+  margin: auto;
+}
+
 .display_pic{
   width: 150px;
   height: 150px;
