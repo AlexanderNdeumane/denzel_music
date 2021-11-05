@@ -11,69 +11,60 @@
   height: 150px;
 }
 
-.rt-container{
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3em;
-}
-
-/* Steps */
-.step {
+.stepper {
+  -ms-flex-align: center;
+  align-items: center;
+  color: #2d2f43;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
   position: relative;
-  min-height: 1em;
-  color: gray;
-}
-.step + .step {
-  margin-top: 1.5em
-}
-.step > div:first-child {
-  position: static;
-  height: 0;
-}
-.step > div:not(:first-child) {
-  margin-left: 1.5em;
-  padding-left: 1em;
+  text-decoration: none;
+  padding-bottom: 24px;
+  padding-top: 24px;
+  margin: auto;
+  width: 70%;
 }
 
-/* Circle */
-.circle {
-  background: gray;
+.stepper-content {
+  -ms-flex: 1;
+  flex: 1;
+  min-width: 0;
   position: relative;
-  width: 1.5em;
-  height: 1.5em;
-  line-height: 1.5em;
-  border-radius: 100%;
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 0 0 3px #fff;
 }
 
-/* Vertical Line */
-.circle:after {
-  content: ' ';
-  position: absolute;
-  display: block;
-  top: 1px;
-  right: 50%;
-  bottom: 1px;
-  left: 50%;
-  height: 100%;
-  width: 1px;
-  transform: scale(1, 2);
-  transform-origin: 50% -100%;
-  background-color: rgba(0, 0, 0, 0.25);
-  z-index: -1;
+.hasLine {
+  padding-bottom: 2rem;
 }
-/* .step:last-child .circle:after {
-  display: none
-} */
-
-/* Stepper Titles */
-.title {
-  line-height: 1.5em;
+.year-achievement {
+  box-sizing: border-box;
+  font-size: .8333rem;
+  min-height: 2.2em;
+  padding-left: 5rem;
+  position: relative;
+}
+.year {
+  color: #9697a1;
   font-weight: bold;
+  font-size: medium;
 }
-.caption {
-  font-size: 0.8em;
+
+.line{
+  background: #c5c5cc;
+  bottom: 2px;
+  left: 3.8rem;
+  margin-top: 2px;
+  position: absolute;
+  top: 1rem;
+  width: 2px;
+}
+
+.point{
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCI+PGNpcmNsZSBjeD0iNjQuOSIgY3k9IjI4LjkiIHI9IjguOSIgZmlsbD0iIzk2OTdBMSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNTYgLTIwKSIvPjwvc3ZnPg==) 50% 50%/contain no-repeat;
+  height: 1rem;
+  left: 3.35rem;
+  position: absolute;
+  top: 0;
+  width: 1rem;
 }
