@@ -1,0 +1,23 @@
+.cntnt{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.albums{
+    padding: 20px;
+    display: inline-block;
+}
+
+.dwnld-btn{
+    text-decoration: none;
+}
+
+.dwnld-btn p{
+    color: #343a40;
+    padding-top: 10px;
+}
+
+.dwnld-btn :hover{
+    color: #6c757d;
+}
+
