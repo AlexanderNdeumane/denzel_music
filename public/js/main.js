@@ -1,4 +1,3 @@
-
 (function ($) {
     "use strict";
 
@@ -43,7 +42,6 @@
             showValidate(message);
             check=false;
         }
-
         return check;
     });
 
