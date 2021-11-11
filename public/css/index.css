@@ -11,29 +11,6 @@
   height: 150px;
 }
 
-.stepper {
-  -ms-flex-align: center;
-  align-items: center;
-  color: #2d2f43;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  position: relative;
-  text-decoration: none;
-  padding-bottom: 24px;
-  padding-top: 24px;
-  margin: auto;
-  width: 70%;
-}
-
-.stepper-content {
-  -ms-flex: 1;
-  flex: 1;
-  min-width: 0;
-  position: relative;
-}
-
 .hasLine {
   padding-bottom: 2rem;
 }
@@ -47,7 +24,6 @@
 .year {
   color: #9697a1;
   font-weight: bold;
-  font-size: medium;
 }
 
 .line{
